@@ -68,6 +68,40 @@ La aplicación crea automáticamente dos usuarios al iniciar por primera vez:
 - Verifica que un usuario sin el rol adecuado no puede acceder.
 - Por ejemplo, sólo el `Director` debe poder enviar propuestas y ver controles administrativos.
 
+## Sprint: casos de prueba y diseño
+
+### 2. Diseñar formulario de registro de cumplimiento del sílabo
+
+- Usa la ruta `/Syllabus/RegisterCompliance` para crear y mostrar el formulario.
+- Verifica que el formulario incluya campos clave como fecha, estado de cumplimiento, observaciones y asignatura.
+- Asegúrate de que el formulario sea accesible desde la vista de sílabo para el rol `Docente`.
+- Rama asociada: `feature/syllabus-compliance-form-sprint1`
+
+### 3. Probar registro, validaciones y consulta posterior
+
+- Completa el formulario de cumplimiento con valores válidos.
+- Verifica que aparezcan mensajes de error para campos obligatorios y valores inválidos.
+- Luego consulta el registro guardado desde la lista de sílabos o desde la vista de historial.
+- Comprueba que los datos de cumplimiento se mantienen después de recargar la página.
+- Rama asociada: `feature/syllabus-compliance-validation-sprint1`
+
+### 4. Diseñar formulario de propuestas de actualización
+
+- Usa la ruta `/Syllabus/CreateProposal` para mostrar el formulario de propuestas.
+- El formulario debe solicitar título, descripción, tipo de propuesta y área de sílabo.
+- Asegura que el rol `Director` tenga acceso prioritario a enviar propuestas de actualización.
+- Rama asociada: `feature/update-proposal-form-sprint1`
+
+### 5. Validar envío, fecha, hora, autor y disponibilidad para el director
+
+- Al enviar una propuesta, verifica que se guarden correctamente:
+  - fecha y hora de envío
+  - autor
+  - estado o disponibilidad para el director
+- Comprueba que sólo el `Director` pueda ver o aprobar propuestas en el panel administrativo.
+- Valida que los campos fechados se muestren correctamente en la lista de propuestas.
+- Rama asociada: `feature/update-proposal-validation-sprint1`
+
 ## Rutas importantes
 
 - `/Account/Login` — Inicio de sesión
