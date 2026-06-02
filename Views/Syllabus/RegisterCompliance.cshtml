@@ -1,0 +1,74 @@
+@model SyllabusCompliance
+@{
+    ViewData["Title"] = "Registrar Cumplimiento de Sílabo";
+}
+
+<div class="auth-wrapper py-4">
+    <div class="glass-card p-4 mx-auto w-100" style="max-width: 600px;">
+        <div class="auth-header mb-4">
+            <span class="fs-1 d-block mb-2">✍️</span>
+            <h2 style="font-family: var(--font-heading);">Registrar Cumplimiento</h2>
+            <p class="text-secondary small">Proporciona los datos del avance de la sesión de aprendizaje correspondiente.</p>
+        </div>
+
+        <form asp-action="RegisterCompliance" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-custom-danger mb-3" role="alert"></div>
+
+            <!-- Docente (Autocompletado / Solo lectura para seguridad) -->
+            <div class="mb-3">
+                <label class="form-label-custom">Docente Responsable</label>
+                <input class="form-control form-control-custom" value="@User.Identity?.Name" readonly style="background-color: rgba(255,255,255,0.05); color: var(--text-secondary);" />
+            </div>
+
+            <!-- Curso -->
+            <div class="mb-3">
+                <label asp-for="CourseName" class="form-label-custom"></label>
+                <input asp-for="CourseName" class="form-control form-control-custom" placeholder="Ej. Ingeniería de Software II" />
+                <span asp-validation-for="CourseName" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <!-- Tema -->
+            <div class="mb-3">
+                <label asp-for="Topic" class="form-label-custom"></label>
+                <input asp-for="Topic" class="form-control form-control-custom" placeholder="Ej. Arquitectura limpia y patrones de diseño" />
+                <span asp-validation-for="Topic" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <div class="row">
+                <!-- Porcentaje de Avance -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CompliancePercentage" class="form-label-custom"></label>
+                    <input asp-for="CompliancePercentage" type="number" class="form-control form-control-custom" min="0" max="100" placeholder="Ej. 100" />
+                    <span asp-validation-for="CompliancePercentage" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <!-- Fecha y hora de clase -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ClassDate" class="form-label-custom"></label>
+                    <input asp-for="ClassDate" type="datetime-local" class="form-control form-control-custom" />
+                    <span asp-validation-for="ClassDate" class="text-danger small mt-1 d-block"></span>
+                </div>
+            </div>
+
+            <!-- Comentarios / Observaciones -->
+            <div class="mb-4">
+                <label asp-for="Comments" class="form-label-custom"></label>
+                <textarea asp-for="Comments" rows="4" class="form-control form-control-custom" placeholder="Ingresa evidencias del avance académico (mínimo 10 caracteres)."></textarea>
+                <span asp-validation-for="Comments" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-6">
+                    <a asp-action="Index" class="btn btn-outline-glow w-100">Cancelar</a>
+                </div>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-glow w-100">Guardar Registro</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

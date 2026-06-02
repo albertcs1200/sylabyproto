@@ -1,0 +1,47 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<div class="auth-wrapper">
+    <div class="glass-card auth-card">
+        <div class="auth-header">
+            <div class="auth-logo floating-logo">⚡</div>
+            <h2>Unirse al Equipo</h2>
+            <p class="text-secondary">Únete a la plataforma Sylaby</p>
+        </div>
+
+        <form asp-controller="Account" asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-custom-danger mb-4" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label-custom"></label>
+                <input asp-for="Email" class="form-control form-control-custom" placeholder="correo@sprint.com" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label-custom"></label>
+                <input asp-for="Password" class="form-control form-control-custom" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="ConfirmPassword" class="form-label-custom"></label>
+                <input asp-for="ConfirmPassword" class="form-control form-control-custom" type="password" placeholder="Repite tu contraseña" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <button type="submit" class="btn btn-glow w-100 py-3 mb-3">Registrarse e Iniciar</button>
+        </form>
+
+        <div class="text-center mt-4">
+            <span class="text-secondary small">¿Ya tienes cuenta? </span>
+            <a asp-action="Login" class="text-light small fw-bold text-decoration-none border-bottom border-light">Inicia sesión aquí</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,79 @@
+@model SyllabusUpdateProposal
+@{
+    ViewData["Title"] = "Crear Propuesta de Cambio de Sílabo";
+}
+
+<div class="auth-wrapper py-4">
+    <div class="glass-card p-4 mx-auto w-100" style="max-width: 650px;">
+        <div class="auth-header mb-4">
+            <span class="fs-1 d-block mb-2">💡</span>
+            <h2 style="font-family: var(--font-heading);">Propuesta de Actualización</h2>
+            <p class="text-secondary small">Somete a evaluación del Director Académico un cambio, innovación o adición en el sílabo actual.</p>
+        </div>
+
+        <form asp-action="CreateProposal" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-custom-danger mb-3" role="alert"></div>
+
+            <div class="row">
+                <!-- Curso -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CourseName" class="form-label-custom"></label>
+                    <input asp-for="CourseName" class="form-control form-control-custom" placeholder="Ej. Base de Datos I" />
+                    <span asp-validation-for="CourseName" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <!-- Tipo de Cambio -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ChangeType" class="form-label-custom"></label>
+                    <select asp-for="ChangeType" class="form-control form-control-custom" style="background-color: var(--bg-dark);">
+                        <option value="Contenido">Contenido Temático</option>
+                        <option value="Bibliografía">Bibliografía y Fuentes</option>
+                        <option value="Metodología">Metodología de Enseñanza</option>
+                        <option value="Evaluación">Sistema de Evaluación</option>
+                    </select>
+                    <span asp-validation-for="ChangeType" class="text-danger small mt-1 d-block"></span>
+                </div>
+            </div>
+
+            <!-- Proponente -->
+            <div class="mb-3">
+                <label class="form-label-custom">Proponente</label>
+                <input class="form-control form-control-custom" value="@User.Identity?.Name" readonly style="background-color: rgba(255,255,255,0.05); color: var(--text-secondary);" />
+            </div>
+
+            <!-- Fecha de propuesta -->
+            <div class="mb-3">
+                <label asp-for="ProposalDate" class="form-label-custom"></label>
+                <input asp-for="ProposalDate" type="date" class="form-control form-control-custom" />
+                <span asp-validation-for="ProposalDate" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <!-- Descripción de la propuesta -->
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label-custom"></label>
+                <textarea asp-for="Description" rows="4" class="form-control form-control-custom" placeholder="Detalla los temas a incorporar, actualizar o modificar (mínimo 20 caracteres)."></textarea>
+                <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <!-- Justificación Académica -->
+            <div class="mb-4">
+                <label asp-for="Justification" class="form-label-custom"></label>
+                <textarea asp-for="Justification" rows="3" class="form-control form-control-custom" placeholder="¿Por qué es necesario este cambio académico? (mínimo 15 caracteres)."></textarea>
+                <span asp-validation-for="Justification" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-6">
+                    <a asp-action="Index" class="btn btn-outline-glow w-100">Cancelar</a>
+                </div>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-glow w-100">Registrar Propuesta</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

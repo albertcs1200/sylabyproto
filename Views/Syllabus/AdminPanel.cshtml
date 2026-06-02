@@ -1,0 +1,126 @@
+@{
+    ViewData["Title"] = "Panel de Control del Director";
+    var compliances = (List<SyllabusCompliance>)ViewBag.Compliances;
+    var proposals = (List<SyllabusUpdateProposal>)ViewBag.Proposals;
+}
+
+<div class="container my-4">
+    <!-- Header banner -->
+    <div class="glass-card p-5 mb-5" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(99, 102, 241, 0.05)); border-color: rgba(239, 68, 68, 0.25);">
+        <div class="row align-items-center">
+            <div class="col-md-9">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <span class="fs-1">👑</span>
+                    <h1 class="mb-0" style="font-family: var(--font-heading);">Panel de Control del Director</h1>
+                </div>
+                <p class="text-secondary mb-0">Vista consolidada y exclusiva para supervisar el cumplimiento académico y autorizar actualizaciones curriculares.</p>
+            </div>
+            <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                <a asp-action="Index" class="btn btn-glow btn-sm w-100">Volver a Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sprints / Silla data tabs -->
+    <div class="row g-4 mb-5">
+        <!-- Compliances Card list -->
+        <div class="col-lg-6">
+            <div class="glass-card p-4">
+                <h3 class="h4 text-light mb-4 border-bottom pb-2" style="border-color: var(--border-color);">
+                    📈 Reportes de Avance (Docentes)
+                </h3>
+                <div class="d-flex flex-column gap-3" style="max-height: 600px; overflow-y: auto; padding-right: 5px;">
+                    @foreach (var c in compliances)
+                    {
+                        <div class="p-3 rounded border" style="background: rgba(255,255,255,0.02); border-color: var(--border-color) !important;">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h4 class="h6 text-white mb-0">@c.CourseName</h4>
+                                    <span class="text-secondary" style="font-size: 0.75rem;">Docente: @c.TeacherName</span>
+                                </div>
+                                <span class="badge" style="background-color: rgba(16, 185, 129, 0.15); color: var(--color-done);">@c.CompliancePercentage% Avance</span>
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-secondary small fw-bold">Tema:</span>
+                                <span class="text-light small">@c.Topic</span>
+                            </div>
+                            <div class="p-2 rounded bg-black bg-opacity-25 border border-white border-opacity-5">
+                                <span class="text-secondary" style="font-size: 0.75rem; font-style: italic;">Observaciones/Evidencias:</span>
+                                <p class="text-light small mb-0 mt-1" style="line-height: 1.4;">@c.Comments</p>
+                            </div>
+                            <div class="text-end mt-2">
+                                <span class="text-secondary" style="font-size: 0.7rem;">Sesión: @c.ClassDate.ToString("dd/MM/yyyy HH:mm")</span>
+                            </div>
+                        </div>
+                    }
+                    @if (!compliances.Any())
+                    {
+                        <div class="text-center py-5 text-secondary small">No hay reportes de cumplimientos registrados.</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Proposals Card list -->
+        <div class="col-lg-6">
+            <div class="glass-card p-4">
+                <h3 class="h4 text-light mb-4 border-bottom pb-2" style="border-color: var(--border-color);">
+                    💡 Propuestas de Actualización de Sílabos
+                </h3>
+                <div class="d-flex flex-column gap-3" style="max-height: 600px; overflow-y: auto; padding-right: 5px;">
+                    @foreach (var p in proposals)
+                    {
+                        <div class="p-3 rounded border @(p.IsApproved ? "border-success-subtle" : "border-warning-subtle")" style="background: rgba(255,255,255,0.02); border-width: 1px;">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h4 class="h6 text-white mb-0">@p.CourseName</h4>
+                                    <span class="text-secondary" style="font-size: 0.75rem;">Propone: @p.ProposerName</span>
+                                </div>
+                                <div>
+                                    @if (p.IsApproved)
+                                    {
+                                        <span class="badge bg-success-subtle text-success border border-success py-1 px-2" style="font-size: 0.75rem;">Aprobada</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning-subtle text-warning border border-warning py-1 px-2" style="font-size: 0.75rem;">Pendiente</span>
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div class="mb-2 small">
+                                <span class="text-secondary fw-bold">Tipo:</span> <span class="text-white">@p.ChangeType</span>
+                            </div>
+                            
+                            <div class="p-2 rounded bg-black bg-opacity-25 border border-white border-opacity-5 mb-2">
+                                <span class="text-secondary" style="font-size: 0.75rem; font-weight: bold;">Sugerencia de Cambio:</span>
+                                <p class="text-light small mb-0 mt-1" style="line-height: 1.4;">@p.Description</p>
+                            </div>
+                            
+                            <div class="p-2 rounded bg-black bg-opacity-25 border border-white border-opacity-5">
+                                <span class="text-secondary" style="font-size: 0.75rem; font-weight: bold;">Justificación Académica:</span>
+                                <p class="text-light small mb-0 mt-1" style="line-height: 1.4;">@p.Justification</p>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="text-secondary" style="font-size: 0.7rem;">Propuesta el: @p.ProposalDate.ToString("dd/MM/yyyy")</span>
+                                
+                                @if (!p.IsApproved)
+                                {
+                                    <form asp-action="ApproveProposal" method="post" class="m-0">
+                                        <input type="hidden" name="id" value="@p.Id" />
+                                        <button type="submit" class="btn btn-glow py-1 px-3 btn-sm" style="font-size: 0.75rem;">✓ Aprobar Cambio</button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    }
+                    @if (!proposals.Any())
+                    {
+                        <div class="text-center py-5 text-secondary small">No hay propuestas de actualización registradas.</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

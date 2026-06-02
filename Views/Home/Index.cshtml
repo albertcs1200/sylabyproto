@@ -1,0 +1,198 @@
+@model IEnumerable<protipo_sprint_tareas.Models.SprintTask>
+@{
+    ViewData["Title"] = "Tablero de Sprint";
+    
+    // Grouping tasks by status
+    var todoTasks = Model.Where(t => t.Status == protipo_sprint_tareas.Models.TaskStatus.ToDo);
+    var inProgressTasks = Model.Where(t => t.Status == protipo_sprint_tareas.Models.TaskStatus.InProgress);
+    var testingTasks = Model.Where(t => t.Status == protipo_sprint_tareas.Models.TaskStatus.Testing);
+    var doneTasks = Model.Where(t => t.Status == protipo_sprint_tareas.Models.TaskStatus.Done);
+    
+    var totalPoints = Model.Sum(t => t.StoryPoints);
+    var donePoints = doneTasks.Sum(t => t.StoryPoints);
+    var progressPercent = totalPoints > 0 ? (donePoints * 100) / totalPoints : 0;
+}
+
+<div class="container-fluid px-0">
+    <!-- Board Header -->
+    <div class="row align-items-center mb-4">
+        <div class="col-md-7">
+            <h1 class="mb-1" style="font-family: var(--font-heading);">🚀 Scrum Sprint Board</h1>
+            <p class="text-secondary mb-0">Monitorea el progreso de las tareas de tu equipo para este Sprint.</p>
+        </div>
+        <div class="col-md-5 text-md-end mt-3 mt-md-0">
+            <span class="badge bg-dark border border-secondary text-secondary py-2 px-3 me-2">
+                Puntos de Historia: <strong>@donePoints/@totalPoints</strong> SP
+            </span>
+            <button class="btn btn-glow btn-sm" onclick="alert('Funcionalidad de prototipo: ¡Nueva tarea añadida de prueba!')">
+                + Nueva Tarea
+            </button>
+        </div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="glass-card p-4 mb-4" style="background: rgba(17, 24, 39, 0.5);">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-secondary small fw-bold">PROGRESO DEL SPRINT</span>
+            <span class="text-light fw-bold small">@progressPercent% Completado</span>
+        </div>
+        <div class="progress" style="height: 10px; background-color: rgba(255,255,255,0.05); border-radius: 5px;">
+            <div class="progress-bar" role="progressbar" 
+                 style="width: @progressPercent%; background: linear-gradient(90deg, #8b5cf6, #06b6d4); border-radius: 5px;" 
+                 aria-valuenow="@progressPercent" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+
+    <!-- Scrum Board Grid -->
+    <div class="board-container">
+        
+        <!-- TO DO -->
+        <div class="board-column">
+            <div class="board-column-header">
+                <span class="column-title">
+                    <span style="color: var(--color-todo)">●</span> Por Hacer
+                </span>
+                <span class="column-badge">@todoTasks.Count()</span>
+            </div>
+            
+            <div class="column-cards-container flex-grow-1">
+                @foreach (var task in todoTasks)
+                {
+                    <div class="task-card">
+                        <div class="task-card-header">
+                            <span class="priority-badge priority-@task.Priority.ToString().ToLower()">@task.Priority</span>
+                            <span class="text-secondary small">#@task.Id</span>
+                        </div>
+                        <div class="task-card-body">
+                            <h4>@task.Title</h4>
+                            <p>@task.Description</p>
+                        </div>
+                        <div class="task-card-footer">
+                            <div class="assignee-info">
+                                <div class="avatar-circle">@task.Assignee[..1].ToUpper()</div>
+                                <span>@task.Assignee</span>
+                            </div>
+                            <span class="task-points">@task.StoryPoints SP</span>
+                        </div>
+                    </div>
+                }
+                @if (!todoTasks.Any())
+                {
+                    <div class="text-center py-4 text-secondary small">Columna vacía</div>
+                }
+            </div>
+        </div>
+
+        <!-- IN PROGRESS -->
+        <div class="board-column">
+            <div class="board-column-header">
+                <span class="column-title">
+                    <span style="color: var(--color-progress)">●</span> En Progreso
+                </span>
+                <span class="column-badge">@inProgressTasks.Count()</span>
+            </div>
+            
+            <div class="column-cards-container flex-grow-1">
+                @foreach (var task in inProgressTasks)
+                {
+                    <div class="task-card" style="border-left: 2px solid var(--primary);">
+                        <div class="task-card-header">
+                            <span class="priority-badge priority-@task.Priority.ToString().ToLower()">@task.Priority</span>
+                            <span class="text-secondary small">#@task.Id</span>
+                        </div>
+                        <div class="task-card-body">
+                            <h4>@task.Title</h4>
+                            <p>@task.Description</p>
+                        </div>
+                        <div class="task-card-footer">
+                            <div class="assignee-info">
+                                <div class="avatar-circle" style="background: linear-gradient(135deg, #a855f7, #ec4899);">@task.Assignee[..1].ToUpper()</div>
+                                <span>@task.Assignee</span>
+                            </div>
+                            <span class="task-points">@task.StoryPoints SP</span>
+                        </div>
+                    </div>
+                }
+                @if (!inProgressTasks.Any())
+                {
+                    <div class="text-center py-4 text-secondary small">Columna vacía</div>
+                }
+            </div>
+        </div>
+
+        <!-- TESTING -->
+        <div class="board-column">
+            <div class="board-column-header">
+                <span class="column-title">
+                    <span style="color: var(--color-testing)">●</span> En Pruebas
+                </span>
+                <span class="column-badge">@testingTasks.Count()</span>
+            </div>
+            
+            <div class="column-cards-container flex-grow-1">
+                @foreach (var task in testingTasks)
+                {
+                    <div class="task-card">
+                        <div class="task-card-header">
+                            <span class="priority-badge priority-@task.Priority.ToString().ToLower()">@task.Priority</span>
+                            <span class="text-secondary small">#@task.Id</span>
+                        </div>
+                        <div class="task-card-body">
+                            <h4>@task.Title</h4>
+                            <p>@task.Description</p>
+                        </div>
+                        <div class="task-card-footer">
+                            <div class="assignee-info">
+                                <div class="avatar-circle">@task.Assignee[..1].ToUpper()</div>
+                                <span>@task.Assignee</span>
+                            </div>
+                            <span class="task-points">@task.StoryPoints SP</span>
+                        </div>
+                    </div>
+                }
+                @if (!testingTasks.Any())
+                {
+                    <div class="text-center py-4 text-secondary small">Columna vacía</div>
+                }
+            </div>
+        </div>
+
+        <!-- DONE -->
+        <div class="board-column">
+            <div class="board-column-header">
+                <span class="column-title">
+                    <span style="color: var(--color-done)">●</span> Terminadas
+                </span>
+                <span class="column-badge">@doneTasks.Count()</span>
+            </div>
+            
+            <div class="column-cards-container flex-grow-1">
+                @foreach (var task in doneTasks)
+                {
+                    <div class="task-card" style="opacity: 0.8; border-left: 2px solid var(--color-done);">
+                        <div class="task-card-header">
+                            <span class="priority-badge priority-@task.Priority.ToString().ToLower()">@task.Priority</span>
+                            <span class="text-secondary small" style="text-decoration: line-through;">#@task.Id</span>
+                        </div>
+                        <div class="task-card-body">
+                            <h4 style="text-decoration: line-through; color: var(--text-secondary)">@task.Title</h4>
+                            <p>@task.Description</p>
+                        </div>
+                        <div class="task-card-footer">
+                            <div class="assignee-info">
+                                <div class="avatar-circle" style="background: linear-gradient(135deg, #10b981, #059669);">@task.Assignee[..1].ToUpper()</div>
+                                <span>@task.Assignee</span>
+                            </div>
+                            <span class="task-points">@task.StoryPoints SP</span>
+                        </div>
+                    </div>
+                }
+                @if (!doneTasks.Any())
+                {
+                    <div class="text-center py-4 text-secondary small">Columna vacía</div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

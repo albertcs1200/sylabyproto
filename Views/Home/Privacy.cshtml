@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Política de Privacidad";
+}
+
+<div class="container my-5">
+    <div class="glass-card p-5">
+        <h1 class="mb-4" style="font-family: var(--font-heading);">🔒 Política de Privacidad</h1>
+        <p class="text-secondary leading-relaxed">
+            En <strong>Sylaby</strong>, nos tomamos muy en serio la seguridad y confidencialidad de los datos académicos registrados. 
+            Esta página detalla el uso y protección de tus credenciales y tableros.
+        </p>
+        
+        <hr class="my-4" style="border-color: var(--border-color);" />
+
+        <div class="row g-4 mt-2">
+            <div class="col-md-6">
+                <div class="p-3 rounded-lg" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                    <h3 class="h5 text-light mb-3">🔑 Almacenamiento Seguro</h3>
+                    <p class="text-secondary small mb-0">
+                        Tus contraseñas se almacenan de forma segura utilizando la encriptación hash adaptativa de ASP.NET Core Identity. 
+                        Nadie, ni siquiera los administradores del sistema, puede conocer tu contraseña en texto plano.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 rounded-lg" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                    <h3 class="h5 text-light mb-3">💾 Base de datos local</h3>
+                    <p class="text-secondary small mb-0">
+                        Los datos de este prototipo se guardan en un archivo de base de datos local SQLite (`app.db`). 
+                        Esto garantiza la portabilidad y la máxima privacidad para tu entorno de desarrollo.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-glow">Volver al Tablero</a>
+        </div>
+    </div>
+</div>

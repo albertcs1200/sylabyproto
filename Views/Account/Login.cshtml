@@ -1,0 +1,48 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="auth-wrapper">
+    <div class="glass-card auth-card">
+        <div class="auth-header">
+            <div class="auth-logo floating-logo">⚡</div>
+            <h2>Sylaby</h2>
+            <p class="text-secondary">Accede a la gestión de sílabos académicos</p>
+        </div>
+
+        <form asp-controller="Account" asp-action="Login" method="post" asp-route-returnUrl="@ViewData["ReturnUrl"]">
+            <div asp-validation-summary="ModelOnly" class="alert alert-custom-danger mb-4" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label-custom"></label>
+                <input asp-for="Email" class="form-control form-control-custom" placeholder="usuario@sprint.com" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label-custom"></label>
+                <input asp-for="Password" class="form-control form-control-custom" type="password" placeholder="••••••••" autocomplete="current-password" aria-required="true" />
+                <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+            </div>
+
+            <div class="form-check mb-4">
+                <input class="form-check-input" asp-for="RememberMe" />
+                <label class="form-check-label text-secondary small" asp-for="RememberMe">
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-glow w-100 py-3 mb-3">Ingresar al Tablero</button>
+        </form>
+
+        <div class="text-center mt-4">
+            <span class="text-secondary small">¿Nuevo en el equipo? </span>
+            <a asp-action="Register" class="text-light small fw-bold text-decoration-none border-bottom border-light">Crea tu cuenta aquí</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
